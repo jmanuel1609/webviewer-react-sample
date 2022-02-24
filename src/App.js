@@ -1,43 +1,38 @@
-import React, { useRef, useEffect } from 'react';
-import WebViewer from '@pdftron/webviewer';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-
+import 'semantic-ui-css/semantic.min.css'
+import {Button, Modal, Header} from "semantic-ui-react"
+import PdfView from './PdfView'
 const App = () => {
-  const viewer = useRef(null);
 
-  // if using a class, equivalent of componentDidMount 
-  useEffect(() => {
-    WebViewer(
-      {
-        path: '/webviewer/lib',
-        initialDoc: '/files/PDFTRON_about.pdf',
-      },
-      viewer.current,
-    ).then((instance) => {
-      const { documentViewer, annotationManager, Annotations } = instance.Core;
+  const [open, setOpen] =useState(false)
 
-      documentViewer.addEventListener('documentLoaded', () => {
-        const rectangleAnnot = new Annotations.RectangleAnnotation({
-          PageNumber: 1,
-          // values are in page coordinates with (0, 0) in the top left
-          X: 100,
-          Y: 150,
-          Width: 200,
-          Height: 50,
-          Author: annotationManager.getCurrentUser()
-        });
 
-        annotationManager.addAnnotation(rectangleAnnot);
-        // need to draw the annotation otherwise it won't show up until the page is refreshed
-        annotationManager.redrawAnnotation(rectangleAnnot);
-      });
-    });
-  }, []);
+  function openViewer(){
+    setOpen(true);
+  }
+
+  function closeViewer(){
+    setOpen(false);
+  }
+
+  // if using a class, equivalent of componentDidMount
+
 
   return (
     <div className="App">
       <div className="header">React sample</div>
-      <div className="webviewer" ref={viewer}></div>
+      <div className={"btnContainer"}>
+        <Button onClick={openViewer} primary>
+          Open pdf
+        </Button>
+      </div>
+      {open && <Modal open={open} onClose={closeViewer}>
+        <Header  content='Asset viewer' />
+        <Modal.Content>
+            <PdfView/>
+        </Modal.Content>
+      </Modal> }
     </div>
   );
 };

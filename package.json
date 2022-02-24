@@ -4,10 +4,12 @@
   "private": true,
   "homepage": "https://pdftron.github.io/webviewer-react-sample",
   "dependencies": {
+    "@pdftron/webviewer": "^8.3.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-scripts": "2.1.1",
-    "@pdftron/webviewer": "^8.0.0"
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.1.2"
   },
   "devDependencies": {
     "btoa": "^1.2.1",
